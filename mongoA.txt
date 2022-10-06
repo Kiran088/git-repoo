@@ -1,0 +1,23 @@
+db.employee.insertMany([{"empname":"raji","ssn":"123","salary":45000,"exp":12,"dob":"27-04-2000","depid":"d1","depandancy":[{"name":"rajesh"}],gender:"female",qualification:"mca",des:"manager",workon:[{"projectid":"123","hour":5},{"projectid":"124","hour":5}]}   
+,
+{"empname":"rakesh","ssn":"124","salary":65000,"exp":15,"dob":"18-04-1999","depid":"d2","depandancy":[{"name":"rahul raj"}],gender:"male",qualification:"mca",des:"senior software engineer",workon:[{"projectid":"123","hour":10},{"projectid":"124","hour":15},{"projectid":"125","hour":15}]}
+,
+{"empname":"pooja","ssn":"125","salary":55000,"exp":14,"dob":"16-05-1999","depid":"d2","depandancy":[{"name":"harsha"}],gender:"female",qualification:"BTECH",des:"software engineer",workon:[{"projectid":"123","hour":8},{"projectid":"124","hour":13},{"projectid":"125","hour":14}]},
+{"empname":"harsha","ssn":"126","salary":45000,"exp":03,"dob":"16-05-2000","depid":"d1",gender:"male",qualification:"mca",des:"UI/UX",workon:[{"projectid":"123","hour":8},{"projectid":"124","hour":13}]},
+{"empname":"bharath","ssn":"127","salary":35000,"exp":5,"dob":"27-02-1999","depid":"d1","depandancy":[{"name":"chanduru"}],gender:"male",qualification:"m.com",des:"accountant",workon:[{"projectid":"123","hour":8},{"projectid":"125","hour":14}]}])
+
+
+query 1
+db.employee.find({gender:"male",des:"senior software engineer"})
+
+query 2 
+db.employee.find({qualification:"mca"})
+
+query 3
+ db.employee.aggregate([{$group:{_id:'$depid',number_of_employee:{$sum:1}}}])
+
+query 4
+db.employee.find({$and:[{gender:"female",salary:{$gt:db.employee.aggregate([{$match:{depid:'d1'}},{$group:{_id:'$depid',avg:{$avg:'$salary'}}}]).toArray()[0].avg}}]})
+
+
+
